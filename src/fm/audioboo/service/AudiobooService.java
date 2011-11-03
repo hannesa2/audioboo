@@ -35,6 +35,8 @@ import java.io.ObjectOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import java.util.Locale;
+
 import fm.audioboo.data.BooData;
 import fm.audioboo.data.PlayerState;
 
@@ -153,7 +155,7 @@ public class AudiobooService
     Resources res = getResources();
     String title = (null != state.mBooTitle) ? state.mBooTitle : res.getString(R.string.notification_default_title);
     String username = (null != state.mBooUsername) ? state.mBooUsername : res.getString(R.string.notification_unknown_user);
-    String text = String.format(res.getString(R.string.notification_text), username);
+    String text = String.format(Locale.US, res.getString(R.string.notification_text), username);
     Notification notification = new Notification(R.drawable.notification,
         null, System.currentTimeMillis());
     notification.setLatestEventInfo(AudiobooService.this, title, text, contentIntent);

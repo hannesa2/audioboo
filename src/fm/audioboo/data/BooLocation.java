@@ -21,6 +21,7 @@ import android.location.Geocoder;
 import android.location.Address;
 
 import java.util.List;
+import java.util.Locale;
 
 import java.io.Serializable;
 
@@ -53,7 +54,7 @@ public class BooLocation implements Parcelable, Serializable
 
   public String toString()
   {
-    return String.format("<%f,%f(%f):%s>", mLatitude, mLongitude, mAccuracy,
+    return String.format(Locale.US, "<%f,%f(%f):%s>", mLatitude, mLongitude, mAccuracy,
         mDescription);
   }
 
@@ -86,10 +87,10 @@ public class BooLocation implements Parcelable, Serializable
         if (null != country) {
           descr = country;
           if (null != admin) {
-            descr = String.format("%s, %s", admin, descr);
+            descr = String.format(Locale.US, "%s, %s", admin, descr);
           }
           if (null != locality) {
-            descr = String.format("%s, %s", locality, descr);
+            descr = String.format(Locale.US, "%s, %s", locality, descr);
           }
           mDescription = descr;
         }

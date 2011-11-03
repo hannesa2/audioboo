@@ -33,6 +33,7 @@ import android.graphics.drawable.BitmapDrawable;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Locale;
 
 import fm.audioboo.data.User;
 
@@ -75,7 +76,7 @@ public class ContactDetailsActivity extends Activity
         if (API.ERR_SUCCESS == msg.what) {
           User user = (User) msg.obj;
 
-          String key = String.format(CONTACT_KEY_FORMAT, user.mId);
+          String key = String.format(Locale.US, CONTACT_KEY_FORMAT, user.mId);
           Globals.get().mObjectCache.put(key, user, CONTACT_TIMEOUT);
 
           populateView();
@@ -139,7 +140,7 @@ public class ContactDetailsActivity extends Activity
   private void populateView()
   {
     // Get user info.
-    String key = String.format(CONTACT_KEY_FORMAT, mUserId);
+    String key = String.format(Locale.US, CONTACT_KEY_FORMAT, mUserId);
     final User user = (User) Globals.get().mObjectCache.get(key);
     if (null == user) {
       // Show loading view
@@ -312,7 +313,7 @@ public class ContactDetailsActivity extends Activity
             }
 
             // Invalidate in cache.
-            String key = String.format(CONTACT_KEY_FORMAT, user.mId);
+            String key = String.format(Locale.US, CONTACT_KEY_FORMAT, user.mId);
             Globals.get().mObjectCache.invalidate(key);
           }
 
@@ -351,7 +352,7 @@ public class ContactDetailsActivity extends Activity
             }
 
             // Invalidate in cache.
-            String key = String.format(CONTACT_KEY_FORMAT, user.mId);
+            String key = String.format(Locale.US, CONTACT_KEY_FORMAT, user.mId);
             Globals.get().mObjectCache.invalidate(key);
           }
 

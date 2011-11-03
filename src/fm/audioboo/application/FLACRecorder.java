@@ -23,6 +23,8 @@ import java.nio.ByteBuffer;
 
 import java.lang.ref.WeakReference;
 
+import java.util.Locale;
+
 import android.util.Log;
 
 
@@ -77,7 +79,7 @@ public class FLACRecorder extends Thread
 
     public String toString()
     {
-      return String.format("%dms: %f/%f", mPosition, mAverage, mPeak);
+      return String.format(Locale.US, "%dms: %f/%f", mPosition, mAverage, mPeak);
     }
 
 

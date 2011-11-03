@@ -39,6 +39,7 @@ import android.os.SystemClock;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Locale;
 
 import fm.audioboo.data.User;
 
@@ -257,7 +258,7 @@ public class BooListAdapter extends BaseExpandableListAdapter
           // Update progress
           double progress = boo.uploadProgress();
           if (progress > 0.0) {
-            status = String.format(activity.getResources().getString(R.string.boo_list_upload_progress), progress);
+            status = String.format(Locale.US, activity.getResources().getString(R.string.boo_list_upload_progress), progress);
           }
           else {
             status = activity.getResources().getString(R.string.boo_list_upload_pending);
@@ -1004,7 +1005,7 @@ public class BooListAdapter extends BaseExpandableListAdapter
 
       double progress = boo.uploadProgress();
       if (progress > 0.0) {
-        text_view.setText(String.format(activity.getResources().getString(R.string.boo_list_upload_progress),
+        text_view.setText(String.format(Locale.US, activity.getResources().getString(R.string.boo_list_upload_progress),
               progress));
       }
       else {

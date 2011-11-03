@@ -182,10 +182,10 @@ public class API
     public String toString()
     {
       if (mLinked) {
-        return String.format("<linked:%s:%s>", mUsername, mEmail);
+        return String.format(Locale.US, "<linked:%s:%s>", mUsername, mEmail);
       }
       else {
-        return String.format("<unlinked:%s>", mLinkUri.toString());
+        return String.format(Locale.US, "<unlinked:%s>", mLinkUri.toString());
       }
     }
   }
@@ -651,11 +651,11 @@ public class API
     HashMap<String, Object> signedParams = null;
 
     if (isMessage) {
-      api = String.format(API_MESSAGE_DETAILS, booId);
+      api = String.format(Locale.US, API_MESSAGE_DETAILS, booId);
       signedParams = new HashMap<String, Object>();
     }
     else {
-      api = String.format(API_BOO_DETAILS, booId);
+      api = String.format(Locale.US, API_BOO_DETAILS, booId);
     }
 
     // This request has no parameters.
@@ -690,17 +690,17 @@ public class API
   {
     // Honor pagination
     HashMap<String, Object> signedParams = new HashMap<String, Object>();
-    signedParams.put("page[items]", String.format("%d", amount));
-    signedParams.put("page[number]", String.format("%d", page));
+    signedParams.put("page[items]", String.format(Locale.US, "%d", amount));
+    signedParams.put("page[number]", String.format(Locale.US, "%d", page));
 
     // Other parameters
-    signedParams.put("max_time", String.format("%d", timestamp.getTime() / 1000));
+    signedParams.put("max_time", String.format(Locale.US, "%d", timestamp.getTime() / 1000));
 
     signedParams.put("find[pg_rated]", "1");
-    signedParams.put("image_size_hint[thumb]", String.format("%dx%d<",
+    signedParams.put("image_size_hint[thumb]", String.format(Locale.US, "%dx%d<",
           Globals.get().FULL_IMAGE_WIDTH,
           Globals.get().FULL_IMAGE_HEIGHT));
-    signedParams.put("image_size_hint[full]", String.format("%dx%d>",
+    signedParams.put("image_size_hint[full]", String.format(Locale.US, "%dx%d>",
           Globals.get().FULL_IMAGE_WIDTH,
           Globals.get().FULL_IMAGE_HEIGHT));
 
@@ -712,8 +712,8 @@ public class API
         return;
       }
 
-      signedParams.put("find[latitude]", String.format("%f", loc.getLatitude()));
-      signedParams.put("find[longitude]", String.format("%f", loc.getLongitude()));
+      signedParams.put("find[latitude]", String.format(Locale.US, "%f", loc.getLatitude()));
+      signedParams.put("find[longitude]", String.format(Locale.US, "%f", loc.getLongitude()));
     }
 
     // This request has no parameters.
@@ -812,7 +812,7 @@ public class API
    **/
   public void fetchAccount(int userId, final Handler result_handler)
   {
-    String api = String.format(API_USER, userId);
+    String api = String.format(Locale.US, API_USER, userId);
 
     // This request has no parameters.
     scheduleRequest(new Request(api, null, null,
@@ -929,7 +929,7 @@ public class API
   {
     // Must force signature.
     HashMap<String, Object> signedParams = new HashMap<String, Object>();
-    signedParams.put("following_user_id", String.format("%d", user.mId));
+    signedParams.put("following_user_id", String.format(Locale.US, "%d", user.mId));
 
     // This request has no parameters.
     scheduleRequest(new Request(API_CONTACTS, null, signedParams,
@@ -985,7 +985,7 @@ public class API
       return;
     }
 
-    String api = String.format(API_MESSAGE_DETAILS, boo.mData.mId);
+    String api = String.format(Locale.US, API_MESSAGE_DETAILS, boo.mData.mId);
 
     HashMap<String, Object> signedParams = new HashMap<String, Object>();
     signedParams.put("message[played]", 1);
@@ -1030,15 +1030,15 @@ public class API
 
     // Prepare signed parameters
     HashMap<String, Object> signedParams = new HashMap<String, Object>();
-    signedParams.put(String.format("%s[title]", prefix), boo.mData.mTitle);
-    signedParams.put(String.format("%s[author_locale]", prefix), Locale.getDefault().toString());
+    signedParams.put(String.format(Locale.US, "%s[title]", prefix), boo.mData.mTitle);
+    signedParams.put(String.format(Locale.US, "%s[author_locale]", prefix), Locale.getDefault().toString());
 
     // Date is different depending on whether we've got a message or not.
     if (!boo.mData.mIsMessage) {
-      signedParams.put(String.format("%s[local_recorded_at]", prefix), boo.mData.mRecordedAt.toString());
+      signedParams.put(String.format(Locale.US, "%s[local_recorded_at]", prefix), boo.mData.mRecordedAt.toString());
     }
     else {
-      signedParams.put(String.format("%s[recorded_at]", prefix), boo.mData.mRecordedAt.toString());
+      signedParams.put(String.format(Locale.US, "%s[recorded_at]", prefix), boo.mData.mRecordedAt.toString());
     }
 
     // Tags
@@ -1047,28 +1047,28 @@ public class API
       for (Tag t : boo.mData.mTags) {
         tags.add(t.mNormalised);
       }
-      signedParams.put(String.format("%s[tag_list]", prefix), tags);
+      signedParams.put(String.format(Locale.US, "%s[tag_list]", prefix), tags);
     }
 
     if (null != boo.mData.mLocation) {
-      signedParams.put(String.format("%s[public_location]", prefix), "1");
-      signedParams.put(String.format("%s[location_latitude]", prefix),
-          String.format("%f", boo.mData.mLocation.mLatitude));
-      signedParams.put(String.format("%s[location_longitude]", prefix),
-          String.format("%f", boo.mData.mLocation.mLongitude));
-      signedParams.put(String.format("%s[location_accuracy]", prefix),
-          String.format("%f", boo.mData.mLocation.mAccuracy));
+      signedParams.put(String.format(Locale.US, "%s[public_location]", prefix), "1");
+      signedParams.put(String.format(Locale.US, "%s[location_latitude]", prefix),
+          String.format(Locale.US, "%f", boo.mData.mLocation.mLatitude));
+      signedParams.put(String.format(Locale.US, "%s[location_longitude]", prefix),
+          String.format(Locale.US, "%f", boo.mData.mLocation.mLongitude));
+      signedParams.put(String.format(Locale.US, "%s[location_accuracy]", prefix),
+          String.format(Locale.US, "%f", boo.mData.mLocation.mAccuracy));
     }
 
     if (null != boo.mData.mUUID) {
-      signedParams.put(String.format("%s[uuid]", prefix), boo.mData.mUUID);
+      signedParams.put(String.format(Locale.US, "%s[uuid]", prefix), boo.mData.mUUID);
     }
 
     // Attachments
-    signedParams.put(String.format("%s[uploaded_data][chunked_attachment_id]", prefix),
+    signedParams.put(String.format(Locale.US, "%s[uploaded_data][chunked_attachment_id]", prefix),
         boo.mData.mUploadInfo.mAudioChunkId);
     if (-1 != boo.mData.mUploadInfo.mImageChunkId) {
-      signedParams.put(String.format("%s[uploaded_image][chunked_attachment_id]", prefix),
+      signedParams.put(String.format(Locale.US, "%s[uploaded_image][chunked_attachment_id]", prefix),
           boo.mData.mUploadInfo.mImageChunkId);
     }
 
@@ -1145,15 +1145,15 @@ public class API
     FilePartBody part = new FilePartBody(file, offset, size);
 
     HashMap<String, Object> signedParams = new HashMap<String, Object>();
-    signedParams.put("attachment[chunk_offset]", String.format("%d", offset));
-    signedParams.put("attachment[size]", String.format("%d", file.length()));
+    signedParams.put("attachment[chunk_offset]", String.format(Locale.US, "%d", offset));
+    signedParams.put("attachment[size]", String.format(Locale.US, "%d", file.length()));
     signedParams.put("attachment[chunk]", part);
 
     int request_type = RT_MULTIPART_POST;
     String api = API_ATTACHMENTS;
     if (-1 != attachmentId) {
       request_type = RT_MULTIPART_PUT;
-      api = String.format("%s/%d", API_ATTACHMENTS, attachmentId);
+      api = String.format(Locale.US, "%s/%d", API_ATTACHMENTS, attachmentId);
     }
 
     // Log.d(LTAG, "Creating attachment request: " + api);
@@ -1189,14 +1189,14 @@ public class API
       for (Map.Entry<String, Object> param : params.entrySet()) {
         Object obj = param.getValue();
         if (obj instanceof String) {
-          query_string += String.format("%s=%s&",
+          query_string += String.format(Locale.US, "%s=%s&",
               Uri.encode(param.getKey()), Uri.encode((String) obj));
         }
         else if (obj instanceof LinkedList<?>) {
           @SuppressWarnings("unchecked")
           LinkedList<String> cast_obj = (LinkedList<String>) obj;
           for (String s : cast_obj) {
-            query_string += String.format("%s=%s[]&",
+            query_string += String.format(Locale.US, "%s=%s[]&",
                 Uri.encode(param.getKey()), Uri.encode(s));
           }
         }
@@ -1379,7 +1379,7 @@ public class API
     switch (request_type) {
       case RT_GET:
         {
-          request_uri = String.format("%s?%s", request_uri,
+          request_uri = String.format(Locale.US, "%s?%s", request_uri,
               constructQueryString(params));
           request = new HttpGet(request_uri);
         }
@@ -1410,7 +1410,7 @@ public class API
             try {
               if (obj instanceof List) {
                 List cast = (List) obj;
-                String key = String.format("%s[]", param.getKey());
+                String key = String.format(Locale.US, "%s[]", param.getKey());
                 for (Object o : cast) {
                   content.addPart(key, new StringBody(o.toString()));
                 }
@@ -1459,7 +1459,7 @@ public class API
 
             if (obj instanceof List) {
               List cast = (List) obj;
-              String key = String.format("%s[]", param.getKey());
+              String key = String.format(Locale.US, "%s[]", param.getKey());
               for (Object o : cast) {
                 p.add(new BasicNameValuePair(key, o.toString()));
               }
@@ -1483,7 +1483,7 @@ public class API
 
       case RT_DELETE:
         {
-          request_uri = String.format("%s?%s", request_uri,
+          request_uri = String.format(Locale.US, "%s?%s", request_uri,
               constructQueryString(params));
           request = new HttpDelete(request_uri);
         }
@@ -1507,7 +1507,7 @@ public class API
     String result = relative;
     Uri uri = Uri.parse(relative);
     if (null == uri.getAuthority()) {
-      result = String.format("%s://%s/%s",
+      result = String.format(Locale.US, "%s://%s/%s",
           API_REQUEST_URI_SCHEME, mAPIHost, relative);
     }
 
@@ -1519,7 +1519,7 @@ public class API
   public Uri makeAbsoluteUri(Uri relative)
   {
     if (null == relative.getAuthority()) {
-      return Uri.parse(String.format("%s://%s%s",
+      return Uri.parse(String.format(Locale.US, "%s://%s%s",
           API_REQUEST_URI_SCHEME, mAPIHost, relative));
     }
 
@@ -1567,7 +1567,7 @@ public class API
     createSignature(base, params, signedParams);
 
     // Create signed Uri
-    String uri_str = String.format("%s?%s", base, constructQueryString(params));
+    String uri_str = String.format(Locale.US, "%s?%s", base, constructQueryString(params));
     return Uri.parse(uri_str);
   }
 
@@ -1601,7 +1601,7 @@ public class API
     if (null == id) {
       return false;
     }
-    String srv_lookup = String.format(SRV_LOOKUP_FORMAT, id);
+    String srv_lookup = String.format(Locale.US, SRV_LOOKUP_FORMAT, id);
 
     Record[] records = null;
     int result = Lookup.TRY_AGAIN;
@@ -1636,7 +1636,7 @@ public class API
     // SRV record's target/port as the API host. There's not much use in
     // trying to look at more records than the first.
     SRVRecord srv = (SRVRecord) records[0];
-    mAPIHost = String.format("%s:%d", srv.getTarget(), srv.getPort());
+    mAPIHost = String.format(Locale.US, "%s:%d", srv.getTarget(), srv.getPort());
 
     return true;
   }
@@ -1664,7 +1664,7 @@ public class API
     // 3. Then all signed parameters need to be copied to the parameters
     //    with a prefix.
     for (Map.Entry<String, Object> param : signedParams.entrySet()) {
-      params.put(String.format("%s%s", SIGNED_PARAM_PREFIX, param.getKey()),
+      params.put(String.format(Locale.US, "%s%s", SIGNED_PARAM_PREFIX, param.getKey()),
             param.getValue());
     }
 
@@ -1676,7 +1676,7 @@ public class API
     // 5. Create the signature.
     try {
       MessageDigest m = MessageDigest.getInstance("SHA-1");
-      m.update(String.format("%s:", request_uri).getBytes());
+      m.update(String.format(Locale.US, "%s:", request_uri).getBytes());
 
       for (int i = 0 ; i < keys.size() ; ++i) {
         String key = keys.get(i);
@@ -1689,7 +1689,7 @@ public class API
         if (obj instanceof List) {
           List cast = (List) obj;
           for (int j = 0 ; j < cast.size() ; ++j) {
-            m.update(String.format("%s[]=%s", key, cast.get(j).toString()).getBytes());
+            m.update(String.format(Locale.US, "%s[]=%s", key, cast.get(j).toString()).getBytes());
 
             if (j < (cast.size() - 1)) {
               m.update("&".getBytes());
@@ -1698,13 +1698,13 @@ public class API
         }
 
         else if (obj instanceof FilePartBody) {
-          m.update(String.format("%s=", key).getBytes());
+          m.update(String.format(Locale.US, "%s=", key).getBytes());
           FilePartBody part = (FilePartBody) obj;
           part.updateHash(m);
         }
 
         else {
-          m.update(String.format("%s=%s", key, obj.toString()).getBytes());
+          m.update(String.format(Locale.US, "%s=%s", key, obj.toString()).getBytes());
         }
 
 
@@ -1713,7 +1713,7 @@ public class API
         }
       }
 
-      m.update(String.format(":%s", mAPISecret).getBytes());
+      m.update(String.format(Locale.US, ":%s", mAPISecret).getBytes());
       String signature = new BigInteger(1, m.digest()).toString(16);
       while (signature.length() < 40) {
         signature = "0" + signature;
@@ -1818,7 +1818,7 @@ public class API
     signedParams.put("source[device_name]", "none"); // No comparable concept exists.
     signedParams.put("source[device_model]", Uri.encode(Build.MODEL));
     signedParams.put("source[system_name]", "Android");
-    signedParams.put("source[system_version]", String.format("%s-%s", Build.VERSION.RELEASE,
+    signedParams.put("source[system_version]", String.format(Locale.US, "%s-%s", Build.VERSION.RELEASE,
           Build.VERSION.INCREMENTAL));
     signedParams.put("force_mobile", "false");
 

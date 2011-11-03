@@ -25,6 +25,8 @@ import fm.audioboo.application.R;
 import java.util.List;
 import java.util.LinkedList;
 
+import java.util.Locale;
+
 /**
  * EditTags is an EditText that applies tag quoting rules to it's contents.
  **/
@@ -329,16 +331,16 @@ public class EditTags extends EditText
   public void setTags(List<Tag> tags)
   {
     // Normalize tags.
-    String sep = String.format("%c", SEPARATOR);
+    String sep = String.format(Locale.US, "%c", SEPARATOR);
     String tagstring = "";
 
     for (Tag tag : tags) {
       if (tag.mNormalised.contains(sep)) {
-        tagstring += String.format("%c%s%c%c ", QUOTE, tag.mNormalised,
+        tagstring += String.format(Locale.US, "%c%s%c%c ", QUOTE, tag.mNormalised,
               QUOTE, SEPARATOR);
       }
       else {
-        tagstring += String.format("%s%c ", tag.mNormalised, SEPARATOR);
+        tagstring += String.format(Locale.US, "%s%c ", tag.mNormalised, SEPARATOR);
       }
     }
 
@@ -354,7 +356,7 @@ public class EditTags extends EditText
   private String cleanTag(String tag, boolean stripUnmatchedQuotes)
   {
     // First, tags may *end* in a SEPARATOR char. Strip that.
-    String needle = String.format("%c", SEPARATOR);
+    String needle = String.format(Locale.US, "%c", SEPARATOR);
     if (tag.endsWith(needle)) {
       tag = tag.substring(0, tag.length() - 1);
     }
@@ -363,7 +365,7 @@ public class EditTags extends EditText
     tag = tag.trim();
 
     // Last, strip either matched or unmatched quotes.
-    needle = String.format("%c", QUOTE);
+    needle = String.format(Locale.US, "%c", QUOTE);
     if (stripUnmatchedQuotes) {
       if (tag.startsWith(needle)) {
         tag = tag.substring(1);

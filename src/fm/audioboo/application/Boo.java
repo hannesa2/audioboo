@@ -28,6 +28,7 @@ import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Comparator;
+import java.util.Locale;
 
 import fm.audioboo.jni.FLACStreamEncoder;
 import fm.audioboo.jni.FLACStreamDecoder;
@@ -487,7 +488,7 @@ public class Boo
     encoder = null;
 
     // Next, set the high mp3 Uri for the Boo to be the target path.
-    mData.mHighMP3Url = Uri.parse(String.format("file://%s", target));
+    mData.mHighMP3Url = Uri.parse(String.format(Locale.US, "file://%s", target));
     //Log.d(LTAG, "Flattened to: " + mData.mHighMP3Url);
 
     // Right, persist this flattened URL

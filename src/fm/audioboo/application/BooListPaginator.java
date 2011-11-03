@@ -22,6 +22,7 @@ import android.widget.ExpandableListView;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import java.lang.ref.WeakReference;
 
@@ -365,7 +366,7 @@ public class BooListPaginator implements BooListAdapter.DataSource
   private void request()
   {
     // Check in Cache first.
-    String key = String.format(PAGE_KEY_FORMAT, mBooType,
+    String key = String.format(Locale.US, PAGE_KEY_FORMAT, mBooType,
         (mTimestamp.getTime() / 1000), mPage);
     BooList list = (BooList) Globals.get().mObjectCache.get(key);
     if (null != list) {
@@ -408,7 +409,7 @@ public class BooListPaginator implements BooListAdapter.DataSource
 
     if (cache) {
       // Put in cache.
-      String key = String.format(PAGE_KEY_FORMAT, mBooType,
+      String key = String.format(Locale.US, PAGE_KEY_FORMAT, mBooType,
           (mTimestamp.getTime() / 1000), mPage);
       Globals.get().mObjectCache.put(key, boos, PAGE_TIMEOUT);
     }

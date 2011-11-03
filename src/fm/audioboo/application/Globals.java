@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.Locale;
 
 import android.content.SharedPreferences;
 
@@ -255,7 +256,7 @@ public class Globals
         if (API.ERR_SUCCESS == msg.what) {
           mAccount = (User) msg.obj;
 
-          String key = String.format(ContactDetailsActivity.CONTACT_KEY_FORMAT, mAccount.mId);
+          String key = String.format(Locale.US, ContactDetailsActivity.CONTACT_KEY_FORMAT, mAccount.mId);
           mObjectCache.put(key, mAccount, ContactDetailsActivity.CONTACT_TIMEOUT);
         }
         if (null != mOnwardsHandler) {
@@ -475,7 +476,7 @@ public class Globals
     // This should uniquely identify the hardware, without including information
     // about the system software. The fields DISPLAY, FINGERPRINT, etc.
     // all include information about the SDK.
-    return String.format("%s:%s:%s:%s",
+    return String.format(Locale.US, "%s:%s:%s:%s",
         Build.BOARD, Build.BRAND, Build.DEVICE, Build.MODEL);
   }
 
@@ -778,7 +779,7 @@ public class Globals
           }
 
           // Format full text for the dialog.
-          String content = String.format("%s\n\n%s\n\n%s %s",
+          String content = String.format(Locale.US, "%s\n\n%s\n\n%s %s",
               res.getString(R.string.error_title),
               res.getString(R.string.error_message_extra),
               res.getString(R.string.error_prefix),

@@ -21,6 +21,7 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.NameValuePair;
 
 import java.util.List;
+import java.util.Locale;
 
 import android.util.Log;
 
@@ -79,7 +80,7 @@ public class UriUtils
 
   public static Uri createDetailsUri(int id, boolean message)
   {
-    return Uri.parse(String.format("audioboo:///boo_details?id=%d&message=%d",
+    return Uri.parse(String.format(Locale.US, "audioboo:///boo_details?id=%d&message=%d",
           id, message ? 1 : 0));
   }
 
@@ -107,7 +108,7 @@ public class UriUtils
   {
     String uri = null;
     try {
-      uri = String.format("audioboo:///record_to?destination_name=%s&",
+      uri = String.format(Locale.US, "audioboo:///record_to?destination_name=%s&",
           URLEncoder.encode(destination_name, "utf8"));
     } catch (java.io.UnsupportedEncodingException ex) {
       Log.e(LTAG, "utf8 is unsupported? unlikely.");
@@ -121,15 +122,15 @@ public class UriUtils
     else {
       id_format = "destination[recipient_id]";
     }
-    uri += String.format("%s=%d", id_format, destination_id);
+    uri += String.format(Locale.US, "%s=%d", id_format, destination_id);
 
     if (-1 != in_reply_to) {
-      uri += String.format("&destination[parent_id]=%d", in_reply_to);
+      uri += String.format(Locale.US, "&destination[parent_id]=%d", in_reply_to);
     }
 
     if (null != title) {
       try {
-        uri += String.format("&destination[title]=%s", URLEncoder.encode(title, "utf8"));
+        uri += String.format(Locale.US, "&destination[title]=%s", URLEncoder.encode(title, "utf8"));
       } catch (java.io.UnsupportedEncodingException ex) {
         Log.e(LTAG, "utf8 is unsupported? unlikely.");
         return null;

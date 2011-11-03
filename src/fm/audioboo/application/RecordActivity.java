@@ -60,6 +60,7 @@ import org.apache.http.NameValuePair;
 
 import java.util.List;
 import java.util.Date;
+import java.util.Locale;
 
 import java.io.File;
 
@@ -596,7 +597,7 @@ public class RecordActivity extends Activity
     TextView text_view = (TextView) findViewById(R.id.record_addressee);
     if (null != text_view) {
       if (null != mDestinationInfo) {
-        String addressee = String.format(getResources().getString(R.string.record_addressee),
+        String addressee = String.format(Locale.US, getResources().getString(R.string.record_addressee),
             mDestinationInfo.mDestinationName);
         text_view.setText(addressee);
       }

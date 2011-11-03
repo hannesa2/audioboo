@@ -46,6 +46,7 @@ import android.app.AlertDialog;
 import android.graphics.drawable.BitmapDrawable;
 
 import java.util.LinkedList;
+import java.util.Locale;
 
 import fm.audioboo.data.User;
 
@@ -296,7 +297,7 @@ public class AccountActivity
         Log.e(LTAG, "Can't find our own package?!?");
       }
 
-      version = String.format(getResources().getString(R.string.account_version_format), version);
+      version = String.format(Locale.US, getResources().getString(R.string.account_version_format), version);
       text_view.setText(version);
     }
   }

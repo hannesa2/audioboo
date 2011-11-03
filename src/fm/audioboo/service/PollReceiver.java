@@ -30,6 +30,8 @@ import fm.audioboo.application.R;
 
 import java.util.Date;
 
+import java.util.Locale;
+
 import android.util.Log;
 
 /**
@@ -132,7 +134,7 @@ public class PollReceiver extends BroadcastReceiver
 
     // Create Notification
     String title = mContext.getResources().getString(R.string.poll_title);
-    String text = String.format(mContext.getResources().getString(R.string.poll_info_format), unread);
+    String text = String.format(Locale.US, mContext.getResources().getString(R.string.poll_info_format), unread);
     Notification notification = new Notification(R.drawable.notification,
         null, System.currentTimeMillis());
     notification.setLatestEventInfo(mContext, title, text, contentIntent);

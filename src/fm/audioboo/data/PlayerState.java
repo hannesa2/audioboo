@@ -18,6 +18,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.IOException;
 
+import java.util.Locale;
+
 import fm.audioboo.service.Constants;
 
 
@@ -59,7 +61,7 @@ public class PlayerState implements Parcelable, Serializable
 
   public String toString()
   {
-    return String.format("<%d|%f/%f|%d|%s|%s|%d|%d>", mState, mProgress, mTotal, mBooId,
+    return String.format(Locale.US, "<%d|%f/%f|%d|%s|%s|%d|%d>", mState, mProgress, mTotal, mBooId,
         mBooTitle, mBooUsername, mBooIsMessage ? 1 : 0, mBooIsLocal ? 1 : 0);
   }
 

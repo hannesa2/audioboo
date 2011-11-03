@@ -21,6 +21,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.IOException;
 
+import java.util.Locale;
 
 /**
  * Representation of an Audioboo user's data.
@@ -63,7 +64,7 @@ public class User implements Parcelable, Serializable
 
   public String toString()
   {
-    return String.format("<%d:%s:%d/%d/%d>", mId, mUsername, mFollowers,
+    return String.format(Locale.US, "<%d:%s:%d/%d/%d>", mId, mUsername, mFollowers,
         mFollowings, mAudioClips);
   }
 

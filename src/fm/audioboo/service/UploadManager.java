@@ -23,6 +23,7 @@ import android.os.Message;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Collections;
+import java.util.Locale;
 
 import java.lang.ref.WeakReference;
 
@@ -72,7 +73,7 @@ public class UploadManager
 
     public String toString()
     {
-      return String.format("[UploadResult:%d:%s:%d/%d:%s]", id, contentType,
+      return String.format(Locale.US, "[UploadResult:%d:%s:%d/%d:%s]", id, contentType,
           received, size, filename);
     }
   }
@@ -515,7 +516,7 @@ public class UploadManager
       case Constants.NOTIFICATION_UPLOADING:
         double progress = boo.uploadProgress();
         message = ctx.getResources().getString(R.string.upload_progress);
-        message = String.format(message, progress);
+        message = String.format(Locale.US, message, progress);
         drawable = android.R.drawable.stat_sys_upload;
         break;
 

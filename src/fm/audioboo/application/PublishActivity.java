@@ -51,6 +51,7 @@ import java.io.FileOutputStream;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Locale;
 
 import fm.audioboo.widget.EditTags;
 
@@ -351,7 +352,7 @@ public class PublishActivity extends Activity
     }
 
     Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-    Uri uri = Uri.parse(String.format("file://%s", mBoo.getTempImageFilename()));
+    Uri uri = Uri.parse(String.format(Locale.US, "file://%s", mBoo.getTempImageFilename()));
     i.putExtra(MediaStore.EXTRA_OUTPUT, uri);
     i.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
 
@@ -502,7 +503,7 @@ public class PublishActivity extends Activity
 
   private void setImageFile(String filename)
   {
-    mBoo.mData.mImageUrl = Uri.parse(String.format("file://%s", filename));
+    mBoo.mData.mImageUrl = Uri.parse(String.format(Locale.US, "file://%s", filename));
 
     ImageButton image = (ImageButton) findViewById(R.id.publish_image);
     if (null != image) {

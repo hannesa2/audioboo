@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.UUID;
+import java.util.Locale;
 
 import java.io.Serializable;
 import java.io.ObjectInputStream;
@@ -55,7 +56,7 @@ public class BooData implements Parcelable, Serializable
 
     public String toString()
     {
-      return String.format("<%f:%s>", mDuration, mFilename);
+      return String.format(Locale.US, "<%f:%s>", mDuration, mFilename);
     }
 
 
@@ -163,7 +164,7 @@ public class BooData implements Parcelable, Serializable
 
   public String toString()
   {
-    String rep = String.format("<%s:%d:%s:%f:[%s]:%d:", mFilename, mId, mTitle,
+    String rep = String.format(Locale.US, "<%s:%d:%s:%f:[%s]:%d:", mFilename, mId, mTitle,
         getDuration(), mUser, (null == mRecordings ? 0 : mRecordings.size()));
     if (null != mRecordings) {
       for (Recording rec : mRecordings) {

@@ -20,6 +20,7 @@ import java.nio.ByteBuffer;
 
 import java.util.Collections;
 import java.util.zip.CRC32;
+import java.util.Locale;
 
 import android.util.Log;
 
@@ -257,7 +258,7 @@ public class BooManager
     }
 
     // Alright, now construct a new file name with that sequence number.
-    return data_dir + File.separator + String.format("%d", seq) + Boo.RECORDING_EXTENSION;
+    return data_dir + File.separator + String.format(Locale.US, "%d", seq) + Boo.RECORDING_EXTENSION;
   }
 
 

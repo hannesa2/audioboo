@@ -40,6 +40,7 @@ import android.util.TypedValue;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Locale;
 
 import org.apache.http.NameValuePair;
 
@@ -110,7 +111,7 @@ public class BooDetailsActivity
         if (API.ERR_SUCCESS == msg.what) {
           mBoo = (Boo) msg.obj;
 
-          String key = String.format(BOO_KEY_FORMAT, mBoo.mData.mId);
+          String key = String.format(Locale.US, BOO_KEY_FORMAT, mBoo.mData.mId);
           Globals.get().mObjectCache.put(key, mBoo, BOO_TIMEOUT);
 
           populateView();
@@ -173,7 +174,7 @@ public class BooDetailsActivity
       }
 
       if (null == mBoo) {
-        String key = String.format(BOO_KEY_FORMAT, id);
+        String key = String.format(Locale.US, BOO_KEY_FORMAT, id);
         mBoo = (Boo) Globals.get().mObjectCache.get(key);
       }
 
@@ -343,7 +344,7 @@ public class BooDetailsActivity
         }
 
         // Image
-        Uri uri = Uri.parse(String.format("http://maps.google.com/maps/api/staticmap?center=%f,%f&zoom=11&size=300x300&maptype=roadmap&markers=%f,%f&sensor=true",
+        Uri uri = Uri.parse(String.format(Locale.US, "http://maps.google.com/maps/api/staticmap?center=%f,%f&zoom=11&size=300x300&maptype=roadmap&markers=%f,%f&sensor=true",
               mBoo.mData.mLocation.mLatitude, mBoo.mData.mLocation.mLongitude,
               mBoo.mData.mLocation.mLatitude, mBoo.mData.mLocation.mLongitude));
         image_view = (ImageView) container.findViewById(R.id.boo_location);
@@ -358,7 +359,7 @@ public class BooDetailsActivity
           container.setOnClickListener(new View.OnClickListener() {
               public void onClick(View v)
               {
-                Uri data = Uri.parse(String.format("http://maps.google.com/?ll=%f,%f&saddr=%f,%f&z=13",
+                Uri data = Uri.parse(String.format(Locale.US, "http://maps.google.com/?ll=%f,%f&saddr=%f,%f&z=13",
                     mBoo.mData.mLocation.mLatitude, mBoo.mData.mLocation.mLongitude,
                     mBoo.mData.mLocation.mLatitude, mBoo.mData.mLocation.mLongitude));
                 Intent i = new Intent(Intent.ACTION_VIEW, data);
@@ -388,7 +389,7 @@ public class BooDetailsActivity
           public void onClick(View v)
           {
             String title = getResources().getString(R.string.details_reply_title);
-            title = String.format(title, mBoo.mData.mTitle);
+            title = String.format(Locale.US, title, mBoo.mData.mTitle);
             Intent intent = new Intent(Intent.ACTION_VIEW,
                 UriUtils.createRecordUri(mBoo.mData.mUser.mId,
                   mBoo.mData.mUser.mUsername, mBoo.mData.mId, title));
