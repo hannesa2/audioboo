@@ -929,7 +929,7 @@ public class API
   {
     // Must force signature.
     HashMap<String, Object> signedParams = new HashMap<String, Object>();
-    signedParams.put("following_user_id", String.format(Locale.US, "%d", user.mId));
+    signedParams.put("following_user_id", String.format(null, "%d", user.mId));
 
     // This request has no parameters.
     scheduleRequest(new Request(API_CONTACTS, null, signedParams,
