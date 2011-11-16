@@ -407,7 +407,7 @@ public class ImageCache extends SQLiteOpenHelper
     }
     else {
       // Delegate to API
-      data = Globals.get().mAPI.fetchRawSynchronous(item.mImageUri, resultHandler);
+      data = Globals.get().mAPI.fetchApiImage(item.mImageUri, resultHandler, true);
     }
 
     // Process results

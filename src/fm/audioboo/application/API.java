@@ -71,7 +71,7 @@ import java.util.StringTokenizer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
+import java.util.Set;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -929,7 +929,7 @@ public class API
   {
     // Must force signature.
     HashMap<String, Object> signedParams = new HashMap<String, Object>();
-    signedParams.put("following_user_id", String.format(null, "%d", user.mId));
+    signedParams.put("following_user_id", String.format(Locale.US, "%d", user.mId));
 
     // This request has no parameters.
     scheduleRequest(new Request(API_CONTACTS, null, signedParams,
@@ -1243,7 +1243,15 @@ public class API
    **/
   public byte[] fetchRawSynchronous(Uri uri, Request req)
   {
-    return fetchRawSynchronous(makeAbsoluteUriString(uri.toString()), req);
+	String uri_string;
+	/* fix up urls if they are missing scheme part */
+	if (uri.getScheme() == null) {
+		uri_string = "http:" + uri.toString();
+	}
+	else {
+		uri_string = uri.toString();
+	}
+    return fetchRawSynchronous(makeAbsoluteUriString(uri_string), req);
   }
 
 
@@ -1267,6 +1275,29 @@ public class API
           }));
   }
 
+  public byte[] fetchApiImage(Uri uri, final Handler handler, boolean signed)
+  {
+	if (uri.getScheme() == null || !uri.getHost().equalsIgnoreCase(DEFAULT_API_HOST))
+		return fetchRawSynchronous(uri, handler);
+
+    HashMap<String, Object> signedParams = new HashMap<String, Object>();
+	try {
+		List<NameValuePair> paramList = URLEncodedUtils.parse(new URI(uri.toString()), "UTF-8");
+		for (NameValuePair pair: paramList)
+			signedParams.put(pair.getName(), pair.getValue());
+	} catch (URISyntaxException ex) {
+		Log.e(LTAG, "An exception occurred when decoding the uri: "
+	          + "(" + uri.toString() + "|" + ex + ") " + ex.getMessage());
+	}
+
+    return fetchRawSynchronous(constructRequest(("account/messages/" + uri.getLastPathSegment()), null, signedParams), new Request(null, null, null, new Handler.Callback() {
+            public boolean handleMessage(Message msg)
+            {
+              handler.obtainMessage(msg.what, msg.obj).sendToTarget();
+              return true;
+            }
+          }));
+  }
 
 
   public byte[] fetchRawSynchronous(HttpRequestBase request, Request req)
