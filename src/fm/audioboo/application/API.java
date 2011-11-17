@@ -29,6 +29,8 @@ import org.xbill.DNS.SimpleResolver;
 
 import java.io.IOException;
 
+import java.net.URL;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -1243,15 +1245,19 @@ public class API
    **/
   public byte[] fetchRawSynchronous(Uri uri, Request req)
   {
-	String uri_string;
+	String uri_string = null;
+	URL base, url;
 	/* fix up urls if they are missing scheme part */
-	if (uri.getScheme() == null) {
-		uri_string = "http:" + uri.toString();
+	try {
+		base = new URL(API_REQUEST_URI_SCHEME + "://" + DEFAULT_API_HOST);
+		url = new URL(base, uri.toString());
+		uri_string = url.toString();
+		Log.e(LTAG, "Fixed up url = " + uri_string);
+	} catch (MalformedURLException ex) {
+		Log.e(LTAG, "An exception occurred when decoding the uri: "
+	          + "(" + uri.toString() + "|" + ex + ") " + ex.getMessage());
 	}
-	else {
-		uri_string = uri.toString();
-	}
-    return fetchRawSynchronous(makeAbsoluteUriString(uri_string), req);
+	return fetchRawSynchronous(makeAbsoluteUriString(uri_string), req);
   }
 
 
@@ -1541,7 +1547,6 @@ public class API
       result = String.format(Locale.US, "%s://%s/%s",
           API_REQUEST_URI_SCHEME, mAPIHost, relative);
     }
-
     return result;
   }
 
