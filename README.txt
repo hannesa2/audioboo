@@ -70,7 +70,7 @@ Most steps only need to be performed once.
 2.  Set up the ant buildsystem.
 
     Run:
-    $ android update project --path $(pwd) --target 4
+    $ android update project --path $(pwd) --target 8
 
     The target number may change as Android SDK versions change; you can
     retrieve the list of numbers via the following command:

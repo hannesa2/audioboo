@@ -12,15 +12,17 @@ package fm.audioboo.application;
 import android.app.Activity;
 
 import android.os.Bundle;
+import android.os.Build;
 
 import android.view.Window;
 
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
+import android.webkit.SslErrorHandler;
 import android.graphics.Bitmap;
 
 import android.net.Uri;
+import android.net.http.SslError;
 
 /**
  * Displays a settings pane, and allows to link or unlink the device to/from
@@ -110,6 +112,16 @@ public class AccountLinkActivity extends Activity
       public void onPageStarted(WebView view, String url, Bitmap favicon)
       {
         setProgressBarVisibility(true);
+      }
+
+      @Override
+      public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) 
+		{
+			// Bouncy castle bug breaks wildcard SSL certs on old version so we just have to
+			// proceed on invalid certificate
+          	handler.proceed(); // Ignore SSL certificate errors
+		}
       }
     });
     webview.loadUrl(link_url);
