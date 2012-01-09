@@ -151,7 +151,7 @@ public class BooManager
     if (!d.exists()) {
       d.mkdirs();
     }
-    if (!d.isDirectory()) {
+    if (!d.isDirectory() || !d.canWrite()) {
       throw new IllegalStateException("Create path '" + path + "' either does not exist, or exists but is not a directory.");
     }
 
@@ -229,6 +229,7 @@ public class BooManager
 
   public String getNewRecordingFilename(Boo boo)
   {
+	Log.d(LTAG, "getNewRecordingFilename: '" + boo.toString() + "'...");
     String data_dir = ensureDataDir(boo);
     if (null == data_dir) {
       return null;
@@ -273,7 +274,7 @@ public class BooManager
     BooFileFilter filter = new BooFileFilter();
 
     for (String path : mPaths) {
-      // Log.d(LTAG, "Searching for Boos in path '" + path + "'...");
+       Log.d(LTAG, "Searching for Boos in path '" + path + "'...");
 
       File d = new File(path);
       if (!d.exists()) {
@@ -357,6 +358,8 @@ public class BooManager
 
   private String ensureDataDir(Boo boo)
   {
+    Log.d(LTAG, "Ensuring Data dir: " + boo.toString());
+
     if (null == boo) {
       return null;
     }

@@ -814,10 +814,24 @@ public class Globals
 
       List<String> paths = new LinkedList<String>();
 
+	Log.d(LTAG, "BooManager looking for exernal storage.");
       // Data on SD card; first preferred path.
-      String base = Environment.getExternalStorageDirectory().getPath();
-      base += File.separator + "data" + File.separator + ctx.getPackageName() + File.separator + "boos";
-      paths.add(base);
+	  String base;
+	  try {
+      	base = Environment.getExternalStorageDirectory().getPath();
+		Log.d(LTAG, "Got:  " + base);
+		File d = new File(base);
+			d.listFiles();	// see if we can actually access what's given to us.  If not then fall back to internal storage
+			if (!d.canWrite()) throw new IOException(); 
+	  }
+	  catch (Exception ex)
+	  {
+		Log.d(LTAG, "Failed to read back form external sdcard.  Falling back to internal storage.  Caught exception " + ex.getMessage());
+		base = ctx.getCacheDir().getPath();
+	  }
+
+      	base += File.separator + "data" + File.separator + ctx.getPackageName() + File.separator + "boos";
+      	paths.add(base);
 
       // Private data, for compatibility with old versions and fallbacks.
       base = ctx.getDir(DATA_DIR_PREFIX, Context.MODE_PRIVATE).getPath();

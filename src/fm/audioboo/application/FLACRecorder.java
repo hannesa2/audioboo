@@ -137,6 +137,8 @@ public class FLACRecorder extends Thread
   {
     mPath = path;
     mHandler = handler;
+    Log.d(LTAG, "New FLACRecorder, path: " + mPath);
+
   }
 
 
@@ -221,7 +223,7 @@ public class FLACRecorder extends Thread
   public void run()
   {
     // Determine audio config to use.
-    final int sample_rates[] = { 96000, 48000, 44100, 22050, 11025 };
+    final int sample_rates[] = { 96000, /* Samsung galaxy S2 phones broken here 48000, */ 44100, 22050, 11025, 8000 };
     final int configs[] = { AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.CHANNEL_CONFIGURATION_STEREO };
     final int formats[] = { AudioFormat.ENCODING_PCM_16BIT, AudioFormat.ENCODING_PCM_8BIT };
 
@@ -242,9 +244,9 @@ public class FLACRecorder extends Thread
         for (int z = 0 ; !found && z < configs.length ; ++z) {
           channel_config = configs[z];
 
-          // Log.d(LTAG, "Trying: " + format + "/" + channel_config + "/" + sample_rate);
-          bufsize = AudioRecord.getMinBufferSize(sample_rate, channel_config, format);
-          // Log.d(LTAG, "Bufsize: " + bufsize);
+          Log.d(LTAG, "Trying: " + format + "/" + channel_config + "/" + sample_rate);
+          bufsize = 2 * AudioRecord.getMinBufferSize(sample_rate, channel_config, format);
+          Log.d(LTAG, "Bufsize: " + bufsize);
 
           // Handle invalid configs
           if (AudioRecord.ERROR_BAD_VALUE == bufsize) {
@@ -260,8 +262,12 @@ public class FLACRecorder extends Thread
             // Set up recorder
             recorder = new AudioRecord(MediaRecorder.AudioSource.MIC, sample_rate,
                 channel_config, format, bufsize);
+			int istate = recorder.getState();
+			if (istate != AudioRecord.STATE_INITIALIZED) // it lied to us
+				continue;
           } catch (IllegalArgumentException ex) {
             recorder = null;
+            Log.e(LTAG, "Failed to set up recorder!");
             continue;
           }
 
@@ -291,6 +297,8 @@ public class FLACRecorder extends Thread
       int bytesPerSecond = sample_rate * (mapped_format / 8) * mapped_channels;
 
       // Set up encoder. Create path for the file if it doesn't yet exist.
+      Log.d(LTAG, "Setting up encoder " + mPath + " rate: " + sample_rate + " channels: " + mapped_channels + " format " + mapped_format);
+
       mEncoder = new FLACStreamEncoder(mPath, sample_rate, mapped_channels, mapped_format);
 
       // Start recording loop
@@ -301,11 +309,11 @@ public class FLACRecorder extends Thread
         if (mShouldRecord != oldShouldRecord) {
           // State changed! Let's see what we are supposed to do.
           if (mShouldRecord) {
-            // Log.d(LTAG, "Start recording!");
+             Log.d(LTAG, "Start recording!");
             recorder.startRecording();
           }
           else {
-            // Log.d(LTAG, "Stop recording!");
+            Log.d(LTAG, "Stop recording!");
             recorder.stop();
             mEncoder.flush();
           }

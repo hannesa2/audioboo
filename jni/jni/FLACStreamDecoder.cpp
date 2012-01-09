@@ -139,6 +139,7 @@ public:
     if (!m_infile) {
       return "Could not open file!";
     }
+    aj::log(ANDROID_LOG_DEBUG, LTAG, "FLAC__StreamDecoder opened %s", m_infile_name);
 
     // Try initializing the file stream.
     FLAC__StreamDecoderInitStatus init_status = FLAC__stream_decoder_init_stream(
@@ -149,12 +150,14 @@ public:
     if (FLAC__STREAM_DECODER_INIT_STATUS_OK != init_status) {
       return "Could not initialize FLAC__StreamDecoder for the given file!";
     }
+    aj::log(ANDROID_LOG_DEBUG, LTAG, "FLAC__StreamDecoder initialized OK");
 
     // Read first frame. That means we also process any metadata.
     FLAC__bool result = FLAC__stream_decoder_process_until_end_of_metadata(m_decoder);
     if (!result) {
       return "Could not read metadata from FLAC__StreamDecoder!";
     }
+    aj::log(ANDROID_LOG_DEBUG, LTAG, "FLAC__StreamDecoder read metadata OK");
 
     return NULL;
   }
@@ -224,10 +227,10 @@ public:
       result = FLAC__stream_decoder_process_single(m_decoder);
 
       ret = checkState();
-      // aj::log(ANDROID_LOG_DEBUG, LTAG, "result: %d, used: %d, size: %d, ret: %d", result, m_buf_used, m_buf_size, ret);
+       aj::log(ANDROID_LOG_DEBUG, LTAG, "result: %d, used: %d, size: %d, ret: %d", result, m_buf_used, m_buf_size, ret);
     } while ((0 == ret) && (result && m_buf_used < m_buf_size));
 
-    //aj::log(ANDROID_LOG_DEBUG, LTAG, "finished read()");
+    aj::log(ANDROID_LOG_DEBUG, LTAG, "finished read()");
 
     // Clear m_buffer, just to be extra-paranoid that it won't accidentally
     // be freed.
@@ -684,6 +687,8 @@ Java_fm_audioboo_jni_FLACStreamDecoder_init(JNIEnv * env, jobject obj,
     jstring infile)
 {
   assert(sizeof(jlong) >= sizeof(FLACStreamDecoder *));
+
+	aj::log(ANDROID_LOG_DEBUG, LTAG,"FLACStreamDecoder_init.., infile=%s", aj::convert_jstring_path(env, infile));
 
   FLACStreamDecoder * decoder = new FLACStreamDecoder(
       aj::convert_jstring_path(env, infile));

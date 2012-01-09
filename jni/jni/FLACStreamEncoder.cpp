@@ -293,7 +293,7 @@ public:
     // If the current write buffer cannot hold the amount of data we've
     // got, push it onto the write FIFO and create a new buffer.
     if (m_write_buffer && m_write_buffer_offset + bufsize32 > m_write_buffer_size) {
-      //aj::log(ANDROID_LOG_DEBUG, LTAG, "JNI buffer is full, pushing to FIFO");
+      aj::log(ANDROID_LOG_DEBUG, LTAG, "JNI buffer is full, pushing to FIFO");
       flush_to_fifo();
 
       // Signal writer to wake up.
@@ -374,10 +374,15 @@ public:
 
       //aj::log(ANDROID_LOG_DEBUG, LTAG, "End of wakeup, or should I die? %s", (m_kill_writer ? "yes" : "no"));
     } while (!m_kill_writer);
+
     pthread_mutex_unlock(&m_fifo_mutex);
 
     //aj::log(ANDROID_LOG_DEBUG, LTAG, "Writer thread dies.");
-
+	for (long i=0;i<50; i++){
+		aj::log(ANDROID_LOG_DEBUG, LTAG,".");
+		usleep(5000);
+	}
+    aj::log(ANDROID_LOG_DEBUG, LTAG, "slept.");
     return NULL;
   }
 

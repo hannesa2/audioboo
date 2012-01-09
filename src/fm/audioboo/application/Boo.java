@@ -227,12 +227,14 @@ public class Boo
   {
     mData.mUpdatedAt = new Date();
     //Log.d(LTAG, "Writing to file: " + this + " - " + filename);
-    //Thread.dumpStack();
-
+	//Thread.dumpStack();
     try {
       ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(new File(filename)));
       os.writeObject(mData);
       os.flush();
+	  if (os != null) {
+		os.close();
+	  }
       os = null;
     } catch (FileNotFoundException ex) {
       Log.e(LTAG, "File not found: " + filename);
@@ -447,7 +449,7 @@ public class Boo
     FLACStreamEncoder encoder = null;
 
     for (BooData.Recording rec : mData.mRecordings) {
-      //Log.d(LTAG, "Using recording: " + rec);
+      Log.d(LTAG, "Using recording: " + rec);
       FLACStreamDecoder decoder = null;
       try {
         decoder = new FLACStreamDecoder(rec.mFilename);
@@ -465,7 +467,7 @@ public class Boo
         if (read <= 0) {
           break;
         }
-        //Log.d(LTAG, "read: " + read);
+        Log.d(LTAG, "read: " + read);
 
 
         if (null == encoder) {
@@ -477,7 +479,9 @@ public class Boo
         encoder.write(buffer, read);
       }
 
-      encoder.flush();
+	  if (null != encoder) {
+      	encoder.flush();
+	  }
       decoder.release();
       decoder = null;
     }
