@@ -174,9 +174,8 @@ public class API
     public Uri      mLinkUri;
 
     // ** Fields for linked devices
-    // Username and email address for the linked user.
+    // Username of the linked user.
     public String   mUsername;
-    public String   mEmail;
     // Record duration, in seconds.
     public int      mRecordDuration = DEFAULT_RECORD_DURATION;
 
@@ -184,7 +183,7 @@ public class API
     public String toString()
     {
       if (mLinked) {
-        return String.format(Locale.US, "<linked:%s:%s>", mUsername, mEmail);
+        return String.format(Locale.US, "<linked:%s>", mUsername);
       }
       else {
         return String.format(Locale.US, "<unlinked:%s>", mLinkUri.toString());

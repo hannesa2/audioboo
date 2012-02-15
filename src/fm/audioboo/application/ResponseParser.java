@@ -299,7 +299,6 @@ class ResponseParser
         JSONObject account = body.mContent.getJSONObject(STATUS_ACCOUNT);
 
         status.mUsername = account.getString(STATUS_ACC_USERNAME);
-        status.mEmail = account.getString(STATUS_ACC_EMAIL);
 
         // There should also be a "record" field with a duration.
         JSONObject limits = body.mContent.getJSONObject(STATUS_LIMITS);
