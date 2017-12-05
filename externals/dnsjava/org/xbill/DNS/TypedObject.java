@@ -10,9 +10,9 @@ package org.xbill.DNS;
 
 interface TypedObject {
 
-/**
- * Gets the type.
- */
-int getType();
+    /**
+     * Gets the type.
+     */
+    int getType();
 
 }

@@ -2,9 +2,6 @@
 
 package org.xbill.DNS.security;
 
-import java.math.*;
-import java.security.interfaces.*;
-
 /**
  * A stub implementation of a DSA (Digital Signature Algorithm) public key
  *
@@ -13,70 +10,79 @@ import java.security.interfaces.*;
 
 class DSAPubKey implements DSAPublicKey {
 
-static class SimpleDSAParams implements DSAParams {
-	private BigInteger P, Q, G;
+    private DSAParams params;
+    private BigInteger Y;
+    /**
+     * Create a DSA public key from its parts
+     */
+    public DSAPubKey(BigInteger p, BigInteger q, BigInteger g, BigInteger y) {
+        params = (DSAParams) new SimpleDSAParams(p, q, g);
+        Y = y;
+    }
 
-	public
-	SimpleDSAParams(BigInteger p, BigInteger q, BigInteger g) {
-		P = p;
-		Q = q;
-		G = g;
-	}
+    /**
+     * Obtain the public value of a DSA public key
+     */
+    public BigInteger
+    getY() {
+        return Y;
+    }
 
-	public BigInteger
-	getP() {
-		return P;
-	}
-		
-	public BigInteger
-	getQ() {
-		return Q;
-	}
-		
-	public BigInteger
-	getG() {
-		return G;
-	}
-}
+    /**
+     * Obtain the parameters of a DSA public key
+     */
+    public DSAParams
+    getParams() {
+        return params;
+    }
 
-private DSAParams params;
-private BigInteger Y;
+    /**
+     * Obtain the algorithm of a DSA public key
+     */
+    public String
+    getAlgorithm() {
+        return "DSA";
+    }
 
-/** Create a DSA public key from its parts */
-public
-DSAPubKey(BigInteger p, BigInteger q, BigInteger g, BigInteger y) {
-	params = (DSAParams) new SimpleDSAParams(p, q, g);
-	Y = y;
-}
+    /**
+     * Obtain the format of a DSA public key (unimplemented)
+     */
+    public String
+    getFormat() {
+        return null;
+    }
 
-/** Obtain the public value of a DSA public key */
-public BigInteger
-getY() {
-	return Y;
-}
+    /**
+     * Obtain the encoded representation of a DSA public key (unimplemented)
+     */
+    public byte[]
+    getEncoded() {
+        return null;
+    }
 
-/** Obtain the parameters of a DSA public key */
-public DSAParams
-getParams() {
-	return params;
-}
+    static class SimpleDSAParams implements DSAParams {
+        private BigInteger P, Q, G;
 
-/** Obtain the algorithm of a DSA public key */
-public String
-getAlgorithm() {
-	return "DSA";
-}
+        public SimpleDSAParams(BigInteger p, BigInteger q, BigInteger g) {
+            P = p;
+            Q = q;
+            G = g;
+        }
 
-/** Obtain the format of a DSA public key (unimplemented) */
-public String
-getFormat() {
-	return null;
-}
+        public BigInteger
+        getP() {
+            return P;
+        }
 
-/** Obtain the encoded representation of a DSA public key (unimplemented) */
-public byte []
-getEncoded() {
-	return null;
-}
+        public BigInteger
+        getQ() {
+            return Q;
+        }
+
+        public BigInteger
+        getG() {
+            return G;
+        }
+    }
 
 }

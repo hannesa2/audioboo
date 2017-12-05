@@ -2,8 +2,6 @@
 
 package org.xbill.DNS;
 
-import java.io.*;
-
 /**
  * An exception thrown when unable to parse text.
  *
@@ -12,14 +10,12 @@ import java.io.*;
 
 public class TextParseException extends IOException {
 
-public
-TextParseException() {
-	super();
-}
+    public TextParseException() {
+        super();
+    }
 
-public
-TextParseException(String s) {
-	super(s);
-}
+    public TextParseException(String s) {
+        super(s);
+    }
 
 }

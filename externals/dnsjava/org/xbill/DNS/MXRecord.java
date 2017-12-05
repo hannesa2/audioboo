@@ -2,9 +2,6 @@
 
 package org.xbill.DNS;
 
-import java.io.*;
-import org.xbill.DNS.utils.*;
-
 /**
  * Mail Exchange - specifies where mail to a domain is sent
  *
@@ -13,46 +10,51 @@ import org.xbill.DNS.utils.*;
 
 public class MXRecord extends U16NameBase {
 
-MXRecord() {}
+    MXRecord() {
+    }
 
-Record
-getObject() {
-	return new MXRecord();
-}
+    /**
+     * Creates an MX Record from the given data
+     *
+     * @param priority The priority of this MX.  Records with lower priority
+     *                 are preferred.
+     * @param target   The host that mail is sent to
+     */
+    public MXRecord(Name name, int dclass, long ttl, int priority, Name target) {
+        super(name, Type.MX, dclass, ttl, priority, "priority",
+                target, "target");
+    }
 
-/**
- * Creates an MX Record from the given data
- * @param priority The priority of this MX.  Records with lower priority
- * are preferred.
- * @param target The host that mail is sent to
- */
-public
-MXRecord(Name name, int dclass, long ttl, int priority, Name target) {
-	super(name, Type.MX, dclass, ttl, priority, "priority",
-	      target, "target");
-}
+    Record
+    getObject() {
+        return new MXRecord();
+    }
 
-/** Returns the target of the MX record */
-public Name
-getTarget() {
-	return getNameField();
-}
+    /**
+     * Returns the target of the MX record
+     */
+    public Name
+    getTarget() {
+        return getNameField();
+    }
 
-/** Returns the priority of this MX record */
-public int
-getPriority() {
-	return getU16Field();
-}
+    /**
+     * Returns the priority of this MX record
+     */
+    public int
+    getPriority() {
+        return getU16Field();
+    }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
-	out.writeU16(u16Field);
-	nameField.toWire(out, c, canonical);
-}
+    void
+    rrToWire(DNSOutput out, Compression c, boolean canonical) {
+        out.writeU16(u16Field);
+        nameField.toWire(out, c, canonical);
+    }
 
-public Name
-getAdditionalName() {
-	return getNameField();
-}
+    public Name
+    getAdditionalName() {
+        return getNameField();
+    }
 
 }

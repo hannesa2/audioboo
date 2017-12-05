@@ -1,13 +1,13 @@
 <html>
 <head>
-<title>dnsjava examples</title>
+    <title>dnsjava examples</title>
 </head>
 
 <body bgcolor="white">
 
 <h1 align="center">dnsjava examples</h1>
 
-All of these examples are code fragments.  Code using these fragments should
+All of these examples are code fragments. Code using these fragments should
 check exceptions when appropriate, and should:
 
 <pre><code>import org.xbill.DNS.*;</code></pre>
@@ -51,7 +51,8 @@ for (Iterator it = records.iterator(); it.hasNext(); )
 
 <br>
 
-<p><b>Use DNS dynamic update to set the address of a host to a value specified on the command line:</b></p>
+<p><b>Use DNS dynamic update to set the address of a host to a value specified on the command
+    line:</b></p>
 <pre><code>
 Name zone = Name.fromString("dyn.test.example.");
 Name host = Name.fromString("host", zone);

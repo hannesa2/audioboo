@@ -1,0 +1,128 @@
+/**
+ * This file is part of Audioboo, an android program for audio blogging.
+ * Copyright (C) 2011 Audioboo Ltd.
+ * All rights reserved.
+ * <p>
+ * Author: Jens Finkhaeuser <jens@finkhaeuser.de>
+ * <p>
+ * $Id$
+ **/
+
+package fm.audioboo.service;
+
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+
+import java.util.Date;
+import java.util.Locale;
+
+import fm.audioboo.application.API;
+import fm.audioboo.application.Boo;
+import fm.audioboo.application.BooList;
+import fm.audioboo.application.Globals;
+import fm.audioboo.application.MessagesActivity;
+import fm.audioboo.application.R;
+
+/**
+ * Receiver for poll Intents. Waits for Globals to connect to the service,
+ * then uses the IPollerService interface to poll for messages.
+ **/
+public class PollReceiver extends BroadcastReceiver {
+    /***************************************************************************
+     * Public constants
+     **/
+    // Action
+    public static final String ACTION_POLL_MESSAGES = "fm.fm.audioboo.actions.POLL_MESSAGES";
+    /***************************************************************************
+     * Private constants
+     **/
+    // Log ID
+    private static final String LTAG = "PollReceiver";
+    /***************************************************************************
+     * Private data
+     **/
+    private Context mContext = null;
+
+    private Handler mHandler = new Handler(new Handler.Callback() {
+        public boolean handleMessage(Message msg) {
+            if (API.ERR_SUCCESS == msg.what) {
+                onReceiveBoos((BooList) msg.obj);
+                return true;
+            }
+            Log.e(LTAG, "Poller got: " + msg.what);
+            return true;
+        }
+    });
+
+
+    /***************************************************************************
+     * Implementation
+     **/
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (!ACTION_POLL_MESSAGES.equals(intent.getAction())) {
+            return;
+        }
+
+        mContext = context;
+        Globals.get().mAPI.fetchBoos(API.BOOS_INBOX, mHandler, 1, 20, new Date());
+    }
+
+
+    private void onReceiveBoos(BooList boos) {
+        int unread = 0;
+
+        for (Boo boo : boos.mClips) {
+            if (!boo.mData.mIsMessage) {
+                continue;
+            }
+            if (boo.mData.mIsRead) {
+                continue;
+            }
+            ++unread;
+        }
+
+        if (0 == unread) {
+            cancelNotification();
+        } else {
+            showNotification(unread);
+        }
+    }
+
+
+    private void cancelNotification() {
+        NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.cancel(Constants.NOTIFICATION_MESSAGES);
+    }
+
+
+    private void showNotification(int unread) {
+        // Create notification
+        NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Create intent for notification clicks. We want to open the Boo's detail
+        // view.
+        Intent intent = new Intent(mContext, MessagesActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
+
+        // Create Notification
+        String title = mContext.getResources().getString(R.string.poll_title);
+        String text = String.format(Locale.US, mContext.getResources().getString(R.string.poll_info_format), unread);
+        Notification notification = new Notification(R.drawable.notification, null, System.currentTimeMillis());
+//        notification.setLatestEventInfo(mContext, title, text, contentIntent); TODO
+
+        // Set the number on the notification, to show how many messages are unread.
+        notification.defaults = Notification.DEFAULT_ALL;
+        notification.number = unread;
+
+        // Install notification
+        nm.notify(Constants.NOTIFICATION_MESSAGES, notification);
+    }
+}

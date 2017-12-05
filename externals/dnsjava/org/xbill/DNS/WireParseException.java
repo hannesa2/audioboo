@@ -2,8 +2,6 @@
 
 package org.xbill.DNS;
 
-import java.io.*;
-
 /**
  * An exception thrown when a DNS message is invalid.
  *
@@ -12,14 +10,12 @@ import java.io.*;
 
 public class WireParseException extends IOException {
 
-public
-WireParseException() {
-	super();
-}
+    public WireParseException() {
+        super();
+    }
 
-public
-WireParseException(String s) {
-	super(s);
-}
+    public WireParseException(String s) {
+        super(s);
+    }
 
 }

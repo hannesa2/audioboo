@@ -144,8 +144,8 @@ Most steps only need to be performed once.
     . ID changes
 
       Whenever you create new IDs for any layout, drawable or resource during
-      development, the file `gen/fm/audioboo/app/R.java' gets updated. Within
-      the `fm.audioboo.application' package it's always automatically imported.
+      development, the file `gen/fm/fm.audioboo/app/R.java' gets updated. Within
+      the `fm.fm.audioboo.application' package it's always automatically imported.
 
       Sometimes adding or removing IDs will cause conflicts, e.g. image files
       may be displayed in the wrong ImageView, or in the worst case the app can

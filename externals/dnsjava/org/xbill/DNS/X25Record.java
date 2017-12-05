@@ -2,9 +2,6 @@
 
 package org.xbill.DNS;
 
-import java.io.*;
-import org.xbill.DNS.utils.*;
-
 /**
  * X25 - identifies the PSDN (Public Switched Data Network) address in the
  * X.121 numbering plan associated with a name.
@@ -14,72 +11,73 @@ import org.xbill.DNS.utils.*;
 
 public class X25Record extends Record {
 
-private byte [] address;
+    private byte[] address;
 
-X25Record() {}
+    X25Record() {
+    }
 
-Record
-getObject() {
-	return new X25Record();
-}
+    /**
+     * Creates an X25 Record from the given data
+     *
+     * @param address The X.25 PSDN address.
+     * @throws IllegalArgumentException The address is not a valid PSDN address.
+     */
+    public X25Record(Name name, int dclass, long ttl, String address) {
+        super(name, Type.X25, dclass, ttl);
+        this.address = checkAndConvertAddress(address);
+        if (this.address == null) {
+            throw new IllegalArgumentException("invalid PSDN address " +
+                    address);
+        }
+    }
 
-private static final byte []
-checkAndConvertAddress(String address) {
-	int length = address.length();
-	byte [] out = new byte [length];
-	for (int i = 0; i < length; i++) {
-		char c = address.charAt(i);
-		if (!Character.isDigit(c))
-			return null;
-		out[i] = (byte) c;
-	}
-	return out;
-}
+    private static final byte[]
+    checkAndConvertAddress(String address) {
+        int length = address.length();
+        byte[] out = new byte[length];
+        for (int i = 0; i < length; i++) {
+            char c = address.charAt(i);
+            if (!Character.isDigit(c))
+                return null;
+            out[i] = (byte) c;
+        }
+        return out;
+    }
 
-/**
- * Creates an X25 Record from the given data
- * @param address The X.25 PSDN address.
- * @throws IllegalArgumentException The address is not a valid PSDN address.
- */
-public
-X25Record(Name name, int dclass, long ttl, String address) {
-	super(name, Type.X25, dclass, ttl);
-	this.address = checkAndConvertAddress(address);
-	if (this.address == null) {
-		throw new IllegalArgumentException("invalid PSDN address " +
-						   address);
-	}
-}
+    Record
+    getObject() {
+        return new X25Record();
+    }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	address = in.readCountedString();
-}
+    void
+    rrFromWire(DNSInput in) throws IOException {
+        address = in.readCountedString();
+    }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
-	String address = st.getString();
-	this.address = checkAndConvertAddress(address);
-	if (this.address == null)
-		throw st.exception("invalid PSDN address " + address);
-}
+    void
+    rdataFromString(Tokenizer st, Name origin) throws IOException {
+        String address = st.getString();
+        this.address = checkAndConvertAddress(address);
+        if (this.address == null)
+            throw st.exception("invalid PSDN address " + address);
+    }
 
-/**
- * Returns the X.25 PSDN address.
- */
-public String
-getAddress() {
-	return byteArrayToString(address, false);
-}
+    /**
+     * Returns the X.25 PSDN address.
+     */
+    public String
+    getAddress() {
+        return byteArrayToString(address, false);
+    }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
-	out.writeCountedString(address);
-}
+    void
+    rrToWire(DNSOutput out, Compression c, boolean canonical) {
+        out.writeCountedString(address);
+    }
 
-String
-rrToString() {
-	return byteArrayToString(address, true);
-}
+    String
+    rrToString() {
+        return byteArrayToString(address, true);
+    }
 
 }

@@ -2,9 +2,6 @@
 
 package org.xbill.DNS;
 
-import java.io.*;
-import org.xbill.DNS.utils.*;
-
 /**
  * Name Server Record  - contains the name server serving the named zone
  *
@@ -13,31 +10,34 @@ import org.xbill.DNS.utils.*;
 
 public class NSRecord extends SingleCompressedNameBase {
 
-NSRecord() {}
+    NSRecord() {
+    }
 
-Record
-getObject() {
-	return new NSRecord();
-}
+    /**
+     * Creates a new NS Record with the given data
+     *
+     * @param target The name server for the given domain
+     */
+    public NSRecord(Name name, int dclass, long ttl, Name target) {
+        super(name, Type.NS, dclass, ttl, target, "target");
+    }
 
-/** 
- * Creates a new NS Record with the given data
- * @param target The name server for the given domain
- */
-public
-NSRecord(Name name, int dclass, long ttl, Name target) {
-	super(name, Type.NS, dclass, ttl, target, "target");
-}
+    Record
+    getObject() {
+        return new NSRecord();
+    }
 
-/** Gets the target of the NS Record */
-public Name
-getTarget() {
-	return getSingleName();
-}
+    /**
+     * Gets the target of the NS Record
+     */
+    public Name
+    getTarget() {
+        return getSingleName();
+    }
 
-public Name
-getAdditionalName() {
-	return getSingleName();
-}
+    public Name
+    getAdditionalName() {
+        return getSingleName();
+    }
 
 }

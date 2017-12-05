@@ -2,8 +2,6 @@
 
 package org.xbill.DNS;
 
-import java.io.*;
-
 /**
  * An exception thrown when an invalid type code is specified.
  *
@@ -12,9 +10,8 @@ import java.io.*;
 
 public class InvalidTypeException extends IllegalArgumentException {
 
-public
-InvalidTypeException(int type) {
-	super("Invalid DNS type: " + type);
-}
+    public InvalidTypeException(int type) {
+        super("Invalid DNS type: " + type);
+    }
 
 }

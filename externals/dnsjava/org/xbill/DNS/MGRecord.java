@@ -2,9 +2,6 @@
 
 package org.xbill.DNS;
 
-import java.io.*;
-import org.xbill.DNS.utils.*;
-
 /**
  * Mail Group Record  - specifies a mailbox which is a member of a mail group.
  *
@@ -13,27 +10,30 @@ import org.xbill.DNS.utils.*;
 
 public class MGRecord extends SingleNameBase {
 
-MGRecord() {}
+    MGRecord() {
+    }
 
-Record
-getObject() {
-	return new MGRecord();
-}
+    /**
+     * Creates a new MG Record with the given data
+     *
+     * @param mailbox The mailbox that is a member of the group specified by the
+     *                domain.
+     */
+    public MGRecord(Name name, int dclass, long ttl, Name mailbox) {
+        super(name, Type.MG, dclass, ttl, mailbox, "mailbox");
+    }
 
-/** 
- * Creates a new MG Record with the given data
- * @param mailbox The mailbox that is a member of the group specified by the
- * domain.
- */
-public
-MGRecord(Name name, int dclass, long ttl, Name mailbox) {
-	super(name, Type.MG, dclass, ttl, mailbox, "mailbox");
-}
+    Record
+    getObject() {
+        return new MGRecord();
+    }
 
-/** Gets the mailbox in the mail group specified by the domain */
-public Name
-getMailbox() {
-	return getSingleName();
-}
+    /**
+     * Gets the mailbox in the mail group specified by the domain
+     */
+    public Name
+    getMailbox() {
+        return getSingleName();
+    }
 
 }

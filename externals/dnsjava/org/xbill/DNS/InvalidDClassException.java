@@ -2,8 +2,6 @@
 
 package org.xbill.DNS;
 
-import java.io.*;
-
 /**
  * An exception thrown when an invalid dclass code is specified.
  *
@@ -12,9 +10,8 @@ import java.io.*;
 
 public class InvalidDClassException extends IllegalArgumentException {
 
-public
-InvalidDClassException(int dclass) {
-	super("Invalid DNS class: " + dclass);
-}
+    public InvalidDClassException(int dclass) {
+        super("Invalid DNS class: " + dclass);
+    }
 
 }

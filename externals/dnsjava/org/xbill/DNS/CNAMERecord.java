@@ -2,9 +2,6 @@
 
 package org.xbill.DNS;
 
-import java.io.*;
-import org.xbill.DNS.utils.*;
-
 /**
  * CNAME Record  - maps an alias to its real name
  *
@@ -13,34 +10,37 @@ import org.xbill.DNS.utils.*;
 
 public class CNAMERecord extends SingleCompressedNameBase {
 
-CNAMERecord() {}
+    CNAMERecord() {
+    }
 
-Record
-getObject() {
-	return new CNAMERecord();
-}
+    /**
+     * Creates a new CNAMERecord with the given data
+     *
+     * @param alias The name to which the CNAME alias points
+     */
+    public CNAMERecord(Name name, int dclass, long ttl, Name alias) {
+        super(name, Type.CNAME, dclass, ttl, alias, "alias");
+    }
 
-/**
- * Creates a new CNAMERecord with the given data
- * @param alias The name to which the CNAME alias points
- */
-public
-CNAMERecord(Name name, int dclass, long ttl, Name alias) {
-	super(name, Type.CNAME, dclass, ttl, alias, "alias");
-}
+    Record
+    getObject() {
+        return new CNAMERecord();
+    }
 
-/**
- * Gets the target of the CNAME Record
- */
-public Name
-getTarget() {
-	return getSingleName();
-}
+    /**
+     * Gets the target of the CNAME Record
+     */
+    public Name
+    getTarget() {
+        return getSingleName();
+    }
 
-/** Gets the alias specified by the CNAME Record */
-public Name
-getAlias() {
-	return getSingleName();
-}
+    /**
+     * Gets the alias specified by the CNAME Record
+     */
+    public Name
+    getAlias() {
+        return getSingleName();
+    }
 
 }

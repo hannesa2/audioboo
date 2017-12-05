@@ -2,9 +2,6 @@
 
 package org.xbill.DNS;
 
-import java.io.*;
-import org.xbill.DNS.utils.*;
-
 /**
  * DNAME Record  - maps a nonterminal alias (subtree) to a different domain
  *
@@ -13,34 +10,37 @@ import org.xbill.DNS.utils.*;
 
 public class DNAMERecord extends SingleNameBase {
 
-DNAMERecord() {}
+    DNAMERecord() {
+    }
 
-Record
-getObject() {
-	return new DNAMERecord();
-}
+    /**
+     * Creates a new DNAMERecord with the given data
+     *
+     * @param alias The name to which the DNAME alias points
+     */
+    public DNAMERecord(Name name, int dclass, long ttl, Name alias) {
+        super(name, Type.DNAME, dclass, ttl, alias, "alias");
+    }
 
-/**
- * Creates a new DNAMERecord with the given data
- * @param alias The name to which the DNAME alias points
- */
-public
-DNAMERecord(Name name, int dclass, long ttl, Name alias) {
-	super(name, Type.DNAME, dclass, ttl, alias, "alias");
-}
+    Record
+    getObject() {
+        return new DNAMERecord();
+    }
 
-/**
- * Gets the target of the DNAME Record
- */
-public Name
-getTarget() {
-	return getSingleName();
-}
+    /**
+     * Gets the target of the DNAME Record
+     */
+    public Name
+    getTarget() {
+        return getSingleName();
+    }
 
-/** Gets the alias specified by the DNAME Record */
-public Name
-getAlias() {
-	return getSingleName();
-}
+    /**
+     * Gets the alias specified by the DNAME Record
+     */
+    public Name
+    getAlias() {
+        return getSingleName();
+    }
 
 }
